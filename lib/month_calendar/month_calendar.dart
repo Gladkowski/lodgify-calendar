@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_recruitment_test/calendar_screen/bloc/month_calendar_cubit.dart';
-import 'package:mobile_recruitment_test/calendar_screen/month_engine.dart';
-import 'package:mobile_recruitment_test/calendar_screen/month_engine_data.dart';
-import 'package:mobile_recruitment_test/colors.dart';
-import 'package:mobile_recruitment_test/text.dart';
-import 'package:mobile_recruitment_test/translations.dart';
+import 'package:mobile_recruitment_test/month_calendar/bloc/month_calendar_cubit.dart';
+import 'package:mobile_recruitment_test/month_calendar/month_engine.dart';
+import 'package:mobile_recruitment_test/month_calendar/month_engine_data.dart';
+import 'package:mobile_recruitment_test/ui/buttons/lodgify_icon_button.dart';
+import 'package:mobile_recruitment_test/ui/colors.dart';
+import 'package:mobile_recruitment_test/ui/typography/text.dart';
+import 'package:mobile_recruitment_test/utils/translations.dart';
 
-/// Main calendar widget that displays a monthly calendar view.
+/// Main calendar screen that displays a monthly calendar view.
 class MonthCalendar extends StatelessWidget {
   const MonthCalendar({super.key});
 
@@ -38,6 +39,13 @@ class _ContentState extends State<_Content> {
     resolveCurrentMonth();
     super.initState();
   }
+
+  //   LodgifyIconButton(
+  //   iconData: Icons.chevron_left,
+  //   onPressed: () {
+  //     // TODO: Implement previous month navigation
+  //   },
+  // ),
 
   @override
   Widget build(BuildContext context) {

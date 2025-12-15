@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recruitment_test/calendar_screen/month_calendar.dart';
-import 'package:mobile_recruitment_test/colors.dart';
-import 'package:mobile_recruitment_test/translations.dart';
+import 'package:mobile_recruitment_test/month_calendar/month_calendar.dart';
+import 'package:mobile_recruitment_test/ui/colors.dart';
+import 'package:mobile_recruitment_test/utils/translations.dart';
 
 class RecruitmentApp extends StatelessWidget {
   const RecruitmentApp({super.key});

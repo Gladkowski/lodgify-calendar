@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recruitment_test/colors.dart';
+import 'package:mobile_recruitment_test/ui/colors.dart';
 
 enum LTextType { 
   small(12), 
@@ -24,8 +24,7 @@ class LText extends StatelessWidget {
   final FontWeight? fontWeight;
 
   @override
-  Widget build(BuildContext context) {
-    return Text(
+  Widget build(BuildContext context) => Text(
       text,
       style: TextStyle(
         fontSize: type.font,
@@ -33,5 +32,4 @@ class LText extends StatelessWidget {
         fontWeight: fontWeight ?? FontWeight.normal,
       ),
     );
-  }
 }
