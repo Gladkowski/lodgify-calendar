@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:mobile_recruitment_test/calendar_screen/bloc/calendar_cubit.dart';
 import 'package:mobile_recruitment_test/calendar_screen/month_engine.dart';
 import 'package:mobile_recruitment_test/calendar_screen/month_engine_data.dart';
+import 'package:mobile_recruitment_test/common/object_utils.dart';
 import 'package:mobile_recruitment_test/ui/buttons/lodgify_icon_button.dart';
 import 'package:mobile_recruitment_test/ui/colors.dart';
 import 'package:mobile_recruitment_test/ui/typography/text.dart';
 import 'package:mobile_recruitment_test/utils/translations.dart';
 
 /// Main calendar screen that displays a monthly calendar view.
-class MonthCalendar extends StatelessWidget {
-  const MonthCalendar({super.key});
+class CalendarScreen extends StatelessWidget {
+  const CalendarScreen({super.key});
 
   @override
   Widget build(BuildContext context) => BlocProvider(create: (_) => CalendarCubit()..init(), child: const _Content());
@@ -58,56 +60,62 @@ class _ContentState extends State<_Content> {
                     ? const SizedBox()
                     : Center(
                       child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: LText(
-                                text: Translations.monthsMap[firstCell.month]!,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              LText(
+                                text:
+                                    state.selectedMonth?.let((it) {
+                                      final monthName = Translations.monthsMap[it.month] ?? '';
+                                      final year = it.year;
+
+                                      return ' $monthName $year';
+                                    }) ??
+                                    '',
                                 type: LTextType.medium,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: List.generate(
-                                KMonthEngine.columnCount,
-                                (index) => Container(
-                                  width: 50.0,
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: LText(text: Translations.weekdayMap[index + 1]!, type: LTextType.medium),
-                                ),
-                              ),
-                            ),
-                            ...List.generate(
-                              KMonthEngine.rowCount,
-                              (rowIndex) => Row(
+                              const Gap(16),
+                              Row(
                                 mainAxisSize: MainAxisSize.min,
-                                children: List.generate(
-                                  KMonthEngine.columnCount,
-                                  (columnIdx) => SizedBox(
-                                    width: 50.0,
-                                    height: 80.0,
-                                    child:
-                                        month[rowIndex]![columnIdx]!.isFromThisScope
-                                            ? Container(
-                                              alignment: Alignment.topCenter,
-                                              color: LColors.shade1,
-                                              child: LText(
-                                                text: month[rowIndex]![columnIdx]!.day.toString(),
-                                                type: LTextType.small,
-                                                fontWeight:
-                                                    month[rowIndex]![columnIdx]!.isToday ? FontWeight.bold : null,
-                                              ),
-                                            )
-                                            : null,
-                                  ),
-                                ),
+                                children:
+                                    Translations.weekDaysEn
+                                        .map(
+                                          (weekday) => Expanded(
+                                            child: Center(child: LText(text: weekday, type: LTextType.medium)),
+                                          ),
+                                        )
+                                        .toList(),
                               ),
-                            ),
-                          ],
+                              const Gap(8),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  // 7 days per week
+                                  crossAxisCount: DateTime.daysPerWeek,
+                                ),
+                                itemCount: state.calendarDays.length,
+                                itemBuilder: (context, index) {
+                                  final calendarDay = state.calendarDays[index];
+
+                                  return Container(
+                                    color: calendarDay.isCurrentMonth ? LColors.shade1 : Colors.white,
+                                    child: Center(
+                                      child: LText(
+                                        text: '${calendarDay.date.day}',
+                                        type: LTextType.small,
+                                        fontWeight: calendarDay.isToday ? FontWeight.bold : null,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

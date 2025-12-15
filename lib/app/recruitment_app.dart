@@ -11,6 +11,6 @@ class RecruitmentApp extends StatelessWidget {
     title: Translations.appTitle,
     theme: ThemeData(scaffoldBackgroundColor: LColors.background),
     debugShowCheckedModeBanner: false,
-    home: const MonthCalendar(),
+    home: const CalendarScreen(),
   );
 }

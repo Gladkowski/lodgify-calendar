@@ -3,16 +3,9 @@ class Translations {
 
   static const appTitle = 'Lodgify recruitment test';
 
-  static const Map<int, String> weekdayMap = {
-    1: 'Mon',
-    2: 'Tue',
-    3: 'Wed',
-    4: 'Thur',
-    5: 'Fri',
-    6: 'Sat',
-    7: 'Sun',
-  };
+  static const Map<int, String> weekdayMap = {1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thur', 5: 'Fri', 6: 'Sat', 7: 'Sun'};
 
+  // intl should be used
   static const Map<int, String> monthsMap = {
     1: 'January',
     2: 'February',
@@ -27,4 +20,7 @@ class Translations {
     11: 'November',
     12: 'December',
   };
+
+  // intl should be used
+  static const weekDaysEn = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 }
