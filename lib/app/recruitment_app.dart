@@ -3,9 +3,6 @@ import 'package:mobile_recruitment_test/colors.dart';
 import 'package:mobile_recruitment_test/month_calendar/month_calendar.dart';
 import 'package:mobile_recruitment_test/translations.dart';
 
-void main() {
-  runApp(const RecruitmentApp());
-}
 
 class RecruitmentApp extends StatelessWidget {
   const RecruitmentApp({super.key});
