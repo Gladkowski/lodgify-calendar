@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_recruitment_test/month_calendar/bloc/month_calendar_cubit.dart';
-import 'package:mobile_recruitment_test/month_calendar/month_engine.dart';
-import 'package:mobile_recruitment_test/month_calendar/month_engine_data.dart';
+import 'package:mobile_recruitment_test/calendar_screen/bloc/calendar_cubit.dart';
+import 'package:mobile_recruitment_test/calendar_screen/month_engine.dart';
+import 'package:mobile_recruitment_test/calendar_screen/month_engine_data.dart';
 import 'package:mobile_recruitment_test/ui/buttons/lodgify_icon_button.dart';
 import 'package:mobile_recruitment_test/ui/colors.dart';
 import 'package:mobile_recruitment_test/ui/typography/text.dart';
@@ -13,8 +13,7 @@ class MonthCalendar extends StatelessWidget {
   const MonthCalendar({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocProvider(create: (_) => MonthCalendarCubit()..init(), child: const _Content());
+  Widget build(BuildContext context) => BlocProvider(create: (_) => CalendarCubit()..init(), child: const _Content());
 }
 
 class _Content extends StatefulWidget {
@@ -51,7 +50,7 @@ class _ContentState extends State<_Content> {
   Widget build(BuildContext context) {
     final MonthCellInfo? firstCell = month[0]?[0];
 
-    return BlocBuilder<MonthCalendarCubit, MonthCalendarState>(
+    return BlocBuilder<CalendarCubit, CalendarState>(
       builder:
           (context, state) => Scaffold(
             body:

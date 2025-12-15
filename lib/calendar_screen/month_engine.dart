@@ -1,5 +1,5 @@
-import 'package:mobile_recruitment_test/month_calendar/month_engine_data.dart';
-import 'package:mobile_recruitment_test/month_calendar/time_utils.dart';
+import 'package:mobile_recruitment_test/calendar_screen/month_engine_data.dart';
+import 'package:mobile_recruitment_test/calendar_screen/time_utils.dart';
 
 /// This class builds a complete calendar month representation with 42 cells
 /// (6 rows × 7 columns), including days from the previous and next months

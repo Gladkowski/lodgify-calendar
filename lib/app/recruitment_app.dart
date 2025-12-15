@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recruitment_test/month_calendar/month_calendar.dart';
+import 'package:mobile_recruitment_test/calendar_screen/calendar_screen.dart';
 import 'package:mobile_recruitment_test/ui/colors.dart';
 import 'package:mobile_recruitment_test/utils/translations.dart';
 
