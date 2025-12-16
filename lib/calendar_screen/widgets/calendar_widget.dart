@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:mobile_recruitment_test/calendar_screen/bloc/calendar_cubit.dart';
 import 'package:mobile_recruitment_test/common/object_utils.dart';
+import 'package:mobile_recruitment_test/localization/translations.dart';
 import 'package:mobile_recruitment_test/ui/buttons/lodgify_icon_button.dart';
 import 'package:mobile_recruitment_test/ui/colors.dart';
 import 'package:mobile_recruitment_test/ui/typography/text.dart';
-import 'package:mobile_recruitment_test/utils/translations.dart';
 
 class CalendarWidget extends StatelessWidget {
   const CalendarWidget({super.key});
