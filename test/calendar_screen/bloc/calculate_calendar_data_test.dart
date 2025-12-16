@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_recruitment_test/calendar_screen/bloc/calendar_cubit.dart';
 import 'package:mobile_recruitment_test/common/time_utils.dart';
@@ -245,9 +246,16 @@ void main() {
     tearDown(() {
       cubit.close();
     });
+    test('Calendar should respect local TZ', () {
+      // Local time is 2025-01-01 00:30:00 at UTC+14, while UTC is still Dec 31.
+      final localNow = DateTime.parse('2025-01-01T00:30:00+14:00');
+      final cubit = CalendarCubit(clock: Clock.fixed(localNow));
 
-    // test('calculateCalendarData should be stable around UTC/local midnight edge case', () {
+      final calendarDays = cubit.calculateCalendarData(localNow);
+      final todayDays = calendarDays.where((day) => day.isToday).toList();
 
-    // });
+      expect(todayDays.length, 1);
+      expect(todayDays.first.date.isSameDay(localNow), isTrue);
+    });
   });
 }

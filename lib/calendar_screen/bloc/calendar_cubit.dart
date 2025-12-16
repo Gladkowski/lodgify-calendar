@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_recruitment_test/calendar_screen/data/calendar_day.dart';
@@ -8,10 +9,12 @@ part 'calendar_cubit.freezed.dart';
 part 'calendar_state.dart';
 
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit() : super(const CalendarState());
+  CalendarCubit({Clock clock = const Clock()}) : _clock = clock, super(const CalendarState());
+
+  final Clock _clock;
 
   void init() {
-    final now = DateTime.now();
+    final now = _clock.now();
     final calendarDays = calculateCalendarData(now);
 
     emit(state.copyWith(calendarDays: calendarDays, selectedMonth: now));
@@ -43,7 +46,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     // As a result we will get the date that should be displayed in the first cell of the calendar (Monday).
     final startDateUtc = firstOfMonthUtc.subtract(Duration(days: offsetToMonday));
 
-    final now = DateTime.now();
+    final now = _clock.now();
 
     return List.generate(calendarNumberOfDays, (index) {
       // Convert back to local time so that da match the user's local calendar.
