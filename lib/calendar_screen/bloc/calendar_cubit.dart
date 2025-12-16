@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_recruitment_test/calendar_screen/data/calendar_day.dart';
+import 'package:mobile_recruitment_test/common/object_utils.dart';
 import 'package:mobile_recruitment_test/common/time_utils.dart';
 
 part 'calendar_cubit.freezed.dart';
@@ -23,7 +24,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     // As a result we will get the date that should be displayed in the first cell of the calendar (Monday).
     final startDate = firstOfMonth.subtract(Duration(days: offsetToMonday));
 
-    final calendarDays = List.generate(42, (index) {
+    final calendarDays = List.generate(_numberOfDays, (index) {
       final date = startDate.add(Duration(days: index));
 
       return CalendarDay(
@@ -35,4 +36,19 @@ class CalendarCubit extends Cubit<CalendarState> {
 
     emit(state.copyWith(calendarDays: calendarDays, selectedMonth: selectedDate));
   }
+
+  void onPreviousMonthTapped() => state.selectedMonth?.let((selectedMonth) {
+    final previousMonth = DateTime(selectedMonth.year, selectedMonth.month - 1);
+
+    _calculateCalendarData(selectedDate: previousMonth);
+  });
+
+  void onNextMonthTapped() => state.selectedMonth?.let((selectedMonth) {
+    final nextMonth = DateTime(selectedMonth.year, selectedMonth.month + 1);
+
+    _calculateCalendarData(selectedDate: nextMonth);
+  });
 }
+
+final _numberOfDays = DateTime.daysPerWeek * _rowCount;
+const _rowCount = 6;
