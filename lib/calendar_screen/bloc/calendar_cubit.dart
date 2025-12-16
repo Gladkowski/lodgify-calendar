@@ -11,24 +11,43 @@ class CalendarCubit extends Cubit<CalendarState> {
   CalendarCubit() : super(const CalendarState());
 
   void init() {
-    _calculateCalendarData(selectedDate: DateTime.now());
+    final now = DateTime.now();
+    final calendarDays = calculateCalendarData(now);
+
+    emit(state.copyWith(calendarDays: calendarDays, selectedMonth: now));
   }
 
-  // TODO: add tests for isToday
-  Future<void> _calculateCalendarData({required DateTime selectedDate}) async {
-    final firstOfMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+  void onPreviousMonthTapped() => state.selectedMonth?.let((selectedMonth) {
+    final previousMonth = DateTime(selectedMonth.year, selectedMonth.month - 1);
+
+    final calendarDays = calculateCalendarData(previousMonth);
+    emit(state.copyWith(calendarDays: calendarDays, selectedMonth: previousMonth));
+  });
+
+  void onNextMonthTapped() => state.selectedMonth?.let((selectedMonth) {
+    final nextMonth = DateTime(selectedMonth.year, selectedMonth.month + 1);
+
+    final calendarDays = calculateCalendarData(nextMonth);
+    emit(state.copyWith(calendarDays: calendarDays, selectedMonth: nextMonth));
+  });
+
+  List<CalendarDay> calculateCalendarData(DateTime selectedDate) {
+    // Use UTC for all internal date calculations to avoid DST-related issues
+    // (duplicated days when clocks change, e.g. 26 October 2025 in some time zones).
+    final firstOfMonthUtc = DateTime.utc(selectedDate.year, selectedDate.month, 1);
 
     // Weekday returns 1-7, where 1 is Monday. DateTime.monday is 1.
     // As a result we will get how far our first day of the month is from Monday.
-    final int offsetToMonday = firstOfMonth.weekday - DateTime.monday;
+    final int offsetToMonday = firstOfMonthUtc.weekday - DateTime.monday;
 
     // As a result we will get the date that should be displayed in the first cell of the calendar (Monday).
-    final startDate = firstOfMonth.subtract(Duration(days: offsetToMonday));
+    final startDateUtc = firstOfMonthUtc.subtract(Duration(days: offsetToMonday));
 
     final now = DateTime.now();
 
-    final calendarDays = List.generate(_numberOfDays, (index) {
-      final date = startDate.add(Duration(days: index));
+    return List.generate(calendarNumberOfDays, (index) {
+      // Convert back to local time so that da match the user's local calendar.
+      final date = startDateUtc.add(Duration(days: index)).toLocal();
 
       return CalendarDay(
         date: date,
@@ -36,22 +55,8 @@ class CalendarCubit extends Cubit<CalendarState> {
         isToday: date.isSameDay(now),
       );
     });
-
-    emit(state.copyWith(calendarDays: calendarDays, selectedMonth: selectedDate));
   }
-
-  void onPreviousMonthTapped() => state.selectedMonth?.let((selectedMonth) {
-    final previousMonth = DateTime(selectedMonth.year, selectedMonth.month - 1);
-
-    _calculateCalendarData(selectedDate: previousMonth);
-  });
-
-  void onNextMonthTapped() => state.selectedMonth?.let((selectedMonth) {
-    final nextMonth = DateTime(selectedMonth.year, selectedMonth.month + 1);
-
-    _calculateCalendarData(selectedDate: nextMonth);
-  });
 }
 
-final _numberOfDays = DateTime.daysPerWeek * _rowCount;
-const _rowCount = 6;
+final calendarNumberOfDays = DateTime.daysPerWeek * calendarRowCount;
+const calendarRowCount = 6;
