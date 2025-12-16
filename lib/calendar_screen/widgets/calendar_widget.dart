@@ -68,12 +68,13 @@ class CalendarWidget extends StatelessWidget {
                 final calendarDay = state.calendarDays[index];
 
                 return Container(
-                  color: calendarDay.isCurrentMonth ? LColors.shade1 : Colors.white,
+                  color: calendarDay.belongsToSelectedMonth ? LColors.shade1 : Colors.white,
                   child: Center(
                     child: LText(
                       text: '${calendarDay.date.day}',
                       type: LTextType.small,
                       fontWeight: calendarDay.isToday ? FontWeight.bold : null,
+                      color: calendarDay.isToday ? LColors.danger : null,
                     ),
                   ),
                 );

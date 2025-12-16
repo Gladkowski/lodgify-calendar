@@ -8,4 +8,5 @@ class LColors {
   static const shade85 = Color(0xFF303030);
   static const brand = Color(0xFF03EBC3);
   static const disabledText = Color(0xFF9E9E9E);
+  static const danger = Color.fromARGB(255, 175, 12, 12);
 }

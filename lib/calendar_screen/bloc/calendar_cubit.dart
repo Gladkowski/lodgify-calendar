@@ -14,6 +14,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     _calculateCalendarData(selectedDate: DateTime.now());
   }
 
+  // TODO: add tests for isToday
   Future<void> _calculateCalendarData({required DateTime selectedDate}) async {
     final firstOfMonth = DateTime(selectedDate.year, selectedDate.month, 1);
 
@@ -24,13 +25,15 @@ class CalendarCubit extends Cubit<CalendarState> {
     // As a result we will get the date that should be displayed in the first cell of the calendar (Monday).
     final startDate = firstOfMonth.subtract(Duration(days: offsetToMonday));
 
+    final now = DateTime.now();
+
     final calendarDays = List.generate(_numberOfDays, (index) {
       final date = startDate.add(Duration(days: index));
 
       return CalendarDay(
         date: date,
-        isCurrentMonth: date.isSameMonth(selectedDate),
-        isToday: date.isSameDay(selectedDate),
+        belongsToSelectedMonth: date.isSameMonth(selectedDate),
+        isToday: date.isSameDay(now),
       );
     });
 
